@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Экономика Pro</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="./tele-secure.js" defer></script>
+  <style>
+    :root{
+      --bg:#0b1220; --bg2:#0f172a; --card:#1e293b; --panel:#111c2f; --panel2:#0f1a2d;
+      --line:#334155; --line2:#40516a; --txt:#f8fafc; --muted:#94a3b8;
+      --blue:#2563eb; --cyan:#38bdf8; --green:#16a34a; --red:#dc2626; --amber:#d97706;
+      --radius:18px; --shadow:0 18px 45px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{margin:0;min-height:100%;font-family:Inter,"Segoe UI",Roboto,Arial,sans-serif;color:var(--txt);background:radial-gradient(circle at 50% -10%,rgba(37,99,235,.28),transparent 38%),linear-gradient(180deg,#101a2e 0%,#070d19 100%);}
+    body{padding:12px 10px 28px;}
+    button,input,select{font:inherit}
+    .hidden{display:none!important}
+    .app{width:100%;max-width:520px;margin:0 auto;}
+    .creator-link{display:block;text-align:center;text-decoration:none;margin:10px auto 22px;}
+    .creator-badge{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:8px 20px;border-radius:999px;border:1px solid rgba(37,99,235,.45);background:rgba(37,99,235,.12);color:#3b82f6;font-size:13px;font-weight:900;letter-spacing:4px;text-transform:uppercase;box-shadow:0 8px 25px rgba(37,99,235,.13)}
+    .card{background:rgba(30,41,59,.96);border:1px solid rgba(71,85,105,.75);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;width:100%;}
+    h1,h2,h3{margin:0}.center{text-align:center}.muted{color:var(--muted)}
+    .title{font-size:30px;line-height:1.1;font-weight:900;letter-spacing:.2px;margin-top:8px}.user-badge{margin-top:18px;color:var(--muted);font-size:16px;font-weight:700}.logo{font-size:34px;margin-right:8px;vertical-align:-3px}
+    .settings{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:24px 0 20px}.setting{background:#101a2c;border:1px solid #34445c;border-radius:14px;padding:15px 16px;min-height:86px}.setting.full{grid-column:span 2}.setting label{display:block;color:#a7b2c5;text-transform:uppercase;font-size:13px;letter-spacing:1.7px;margin-bottom:10px;font-weight:700}.setting input,.setting select{width:100%;border:0;outline:0;background:transparent;color:#fff;font-size:23px;font-weight:900}.range-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}.select-wrap{position:relative}.select-wrap:after{content:'⌄';position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:30px;color:#fff;pointer-events:none}.setting select{appearance:none;padding-right:36px;font-size:22px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.btn{border:0;border-radius:15px;min-height:66px;padding:15px 16px;color:white;font-weight:900;font-size:17px;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;transition:.18s transform,.18s filter,.18s opacity}.btn:active{transform:scale(.98)}.btn-full{grid-column:span 2}.btn-primary{background:linear-gradient(135deg,#2563eb,#2563eb)}.btn-gray{background:#334155;color:#e2e8f0}.btn-cyan{background:linear-gradient(135deg,#0284c7,#0ea5e9)}.btn-amber{background:linear-gradient(135deg,#d97706,#f59e0b)}.btn-green{background:linear-gradient(135deg,#15803d,#16a34a)}.btn-red{background:#b91c1c}.btn-small{min-height:44px;padding:10px 14px;border-radius:12px;font-size:15px}.btn[disabled]{opacity:.55;cursor:not-allowed}
+    .screen-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}.timer{font-size:34px;font-weight:1000;color:var(--cyan);letter-spacing:1px}.q-index{font-size:14px;color:var(--muted);font-weight:800;margin-bottom:10px}.question{font-size:21px;line-height:1.35;font-weight:900;margin-bottom:22px}.options{display:grid;gap:11px;margin:0 0 18px;padding:0;list-style:none}.option{background:#101a2c;border:1px solid #334155;border-radius:13px;padding:17px 16px;font-size:18px;line-height:1.35;color:#f8fafc;cursor:pointer}.option.selected{border:2px solid #2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.18)}.option.correct{background:#16a34a;border-color:#15803d;color:#fff}.option.wrong{background:#dc2626;border-color:#b91c1c;color:#fff}.question-actions{display:grid;grid-template-columns:60px 1fr;gap:12px}.top-actions{display:flex;gap:8px;align-items:center}.fav-btn{background:#111c2f;border:1px solid #3b4e69;color:#ffd166;border-radius:12px;min-width:46px;min-height:44px;font-size:21px;cursor:pointer}.finish-small{background:#334155;color:#e2e8f0;border:0;border-radius:15px;padding:13px 18px;font-weight:900;font-size:17px;cursor:pointer}
+    .sticky-list-head{position:sticky;top:0;z-index:30;background:linear-gradient(180deg,#101a2e 0%,rgba(16,26,46,.96) 100%);padding:0 0 12px;margin:-2px 0 12px;backdrop-filter:blur(8px)}.search{width:100%;height:52px;border:1px solid #334155;background:#0f1a2d;color:#fff;border-radius:13px;padding:0 15px;font-size:17px;font-weight:800;outline:0}.list-title-row{display:flex;gap:10px;align-items:center;margin-bottom:12px}.list-title-row h2{font-size:22px;font-weight:1000;flex:1}.item{background:#111c2f;border:1px solid #334155;border-radius:15px;padding:15px;margin-bottom:11px}.item-q{font-weight:900;line-height:1.35;margin-bottom:10px}.answer{color:#22c55e;font-weight:900;font-size:15px;line-height:1.35}.item-top{display:flex;gap:10px;align-items:flex-start}.item-top .item-q{flex:1}.star{border:1px solid #475569;background:#0f172a;color:#fbbf24;border-radius:12px;min-width:42px;min-height:42px;font-size:20px;cursor:pointer}.star.active{background:#d97706;color:white;border-color:#f59e0b}.empty{text-align:center;color:var(--muted);font-weight:800;padding:34px 12px}.history-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.pill{background:#0f1a2d;border:1px solid #334155;border-radius:999px;padding:8px 10px;color:#cbd5e1;font-size:13px;font-weight:800;text-align:center}.result-score{font-size:48px;text-align:center;color:var(--cyan);font-weight:1000;margin:18px 0 6px}.percent{font-size:22px;text-align:center;color:#22c55e;font-weight:900;margin-bottom:18px}.result-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+    .paywall{position:fixed;inset:0;z-index:99999;background:radial-gradient(circle at top,rgba(56,189,248,.22),transparent 38%),rgba(2,6,23,.94);backdrop-filter:blur(10px);display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:max(14px,env(safe-area-inset-top)) 14px max(90px,env(safe-area-inset-bottom))}.paybox{width:100%;max-width:452px;background:linear-gradient(180deg,#111827,#0f172a);border:1px solid rgba(148,163,184,.28);border-radius:25px;box-shadow:0 25px 70px rgba(0,0,0,.65);padding:18px;margin:auto 0;animation:pop .22s ease}@keyframes pop{from{transform:translateY(12px) scale(.98);opacity:0}to{transform:none;opacity:1}}.pay-icon{width:58px;height:58px;margin:0 auto 10px;border-radius:19px;background:linear-gradient(135deg,#2563eb,#38bdf8);display:flex;align-items:center;justify-content:center;font-size:31px;box-shadow:0 14px 32px rgba(37,99,235,.36)}.pay-title{text-align:center;font-size:23px;font-weight:1000;margin-bottom:7px}.pay-sub{text-align:center;color:#a7b2c5;line-height:1.35;margin:0 0 12px;font-weight:700}.pay-card{background:#0f172a;border:1px solid #334155;border-radius:15px;padding:12px;margin-bottom:9px}.pay-label{color:#94a3b8;text-transform:uppercase;letter-spacing:1.4px;font-size:11px;font-weight:900;margin-bottom:6px}.pay-value{color:white;font-size:18px;font-weight:1000;word-break:break-all}.price{color:#22c55e;font-size:27px;font-weight:1000}.row{display:flex;gap:8px;align-items:center}.copy{border:1px solid #334155;background:#1e293b;color:#e2e8f0;border-radius:10px;padding:9px 11px;font-weight:900;cursor:pointer}.admin{color:#38bdf8;text-decoration:none;font-size:19px;font-weight:1000}.pay-note{color:#dbeafe;line-height:1.45;font-weight:700}.pay-input{width:100%;height:52px;border:1px solid #334155;background:#020617;color:#fff;border-radius:14px;outline:0;text-align:center;font-size:16px;font-weight:900;letter-spacing:.8px;margin:4px 0 9px}.pay-input:focus{border-color:#38bdf8;box-shadow:0 0 0 3px rgba(56,189,248,.16)}.pay-error{min-height:20px;text-align:center;font-weight:900;font-size:13px;color:#f87171;margin-top:7px}.danger-note{color:#fbbf24;font-size:12px;text-align:center;line-height:1.35;margin-top:8px}.locked-hint{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#0f172a;border:1px solid #334155;color:#fff;padding:12px 16px;border-radius:999px;font-weight:900;z-index:99998;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.2s}.locked-hint.show{opacity:1;bottom:34px}
+    @media(max-width:430px){body{padding:9px 8px 20px}.card{padding:19px;border-radius:17px}.title{font-size:27px}.settings{gap:11px}.setting{min-height:82px;padding:14px}.setting input,.setting select{font-size:22px}.btn{font-size:16px;min-height:62px}.question{font-size:20px}.option{font-size:17px}.creator-badge{letter-spacing:3px}.paybox{padding:18px;border-radius:22px}}
+
+    #start-screen{margin-top:clamp(8px,4vh,46px);}
+    #start-screen .title{margin-bottom:6px;}
+    #start-screen .user-badge{margin-top:10px;}
+    #start-screen .settings{margin:20px 0 18px;}
+    @media(max-height:740px){.paybox{margin:0}.pay-icon{width:48px;height:48px;font-size:27px}.pay-title{font-size:21px}.pay-sub{font-size:14px;margin-bottom:9px}.pay-card{padding:10px;margin-bottom:7px}.pay-note{font-size:14px}.pay-input{height:48px}.btn{min-height:58px}}
+    @media(min-height:780px){#start-screen{margin-top:clamp(28px,7vh,80px)}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <a href="https://t.me/nurislombekm" target="_blank" class="creator-link"><div class="creator-badge">РАЗРАБОТКА: @NURISLOMBEKM</div></a>
+
+    <div id="paywall" class="paywall hidden">
+      <div class="paybox">
+        <div class="pay-icon">🔐</div>
+        <div class="pay-title">Бесплатный период завершился</div>
+        <p class="pay-sub">Чтобы пользоваться тестами, активируйте персональный ключ доступа.</p>
+        <div class="pay-card"><div class="pay-label">Ваш Telegram ID</div><div class="row"><div id="pay-user-id" class="pay-value" style="flex:1">Определяется...</div><button class="copy" onclick="copyUserId()">📋</button></div></div>
+        <div class="pay-card"><div class="pay-label">Стоимость</div><div class="price">30 000 сум</div></div>
+        <div class="pay-card"><div class="pay-label">Номер карты</div><div class="row"><div id="card-number" class="pay-value" style="flex:1">5614 6887 0288 1144</div><button class="copy" onclick="copyCard()">📋</button></div></div>
+        <div class="pay-card pay-note">После оплаты отправьте чек администратору:<br><a class="admin" href="https://t.me/nurislombekm" target="_blank">@nurislombekm</a><br><br>В сообщении обязательно укажите ваш Telegram ID.</div>
+        <input id="activation-key" class="pay-input" placeholder="Введите ключ активации" autocomplete="off" onfocus="setTimeout(()=>this.scrollIntoView({block:'center',behavior:'smooth'}),250)" />
+        <button class="btn btn-primary btn-full" onclick="activateKey()">Активировать ключ</button>
+        <div id="pay-error" class="pay-error"></div>
+      </div>
+    </div>
+
+    <div id="locked-hint" class="locked-hint">Нужна активация ключа 🔐</div>
+
+    <div id="loading-screen" class="card center"><div class="muted" style="font-weight:900">Загрузка...</div></div>
+
+    <div id="start-screen" class="card hidden">
+      <div class="center">
+        <h1 class="title"><span class="logo">📊</span>Экономика Pro</h1>
+        <div id="user-badge" class="user-badge">Пользователь</div>
+      </div>
+      <div class="settings">
+        <div class="setting"><label>Время</label><input type="number" id="cfg-time" value="1200" min="10"></div>
+        <div class="setting"><label>Вопросов</label><input type="number" id="cfg-count" value="20" min="1"></div>
+        <div class="setting full"><label>Диапазон (от - до)</label><div class="range-row"><input type="number" id="cfg-start" value="1" min="1"><input type="number" id="cfg-end" value="300" min="1"></div></div>
+        <div class="setting full"><label>Порядок</label><div class="select-wrap"><select id="cfg-order"><option value="random">Случайный</option><option value="list">По порядку</option></select></div></div>
+      </div>
+      <div class="grid">
+        <button class="btn btn-primary btn-full" onclick="initTest(true)">⚡ Начать</button>
+        <button class="btn btn-gray" onclick="initTest(false)">🧩 Решать без времени</button>
+        <button class="btn btn-cyan" onclick="initStudy()">📖 Изучить тесты</button>
+        <button class="btn btn-amber" onclick="showFavorites()">⭐ Избранное</button>
+        <button class="btn btn-gray btn-full" onclick="showHistory()">📜 Моя история</button>
+      </div>
+    </div>
+
+    <div id="test-screen" class="card hidden">
+      <div class="screen-head">
+        <div><div id="timer-display" class="timer">00:00</div><div id="test-progress" class="q-index"></div></div>
+        <div class="top-actions"><button id="fav-current" class="fav-btn" onclick="toggleCurrentFavorite()">☆</button><button id="early-finish" class="finish-small" onclick="confirmFinish()">Завершить</button></div>
+      </div>
+      <div id="q-text" class="question"></div>
+      <ul id="q-options" class="options"></ul>
+      <button id="accept-btn" class="btn btn-primary btn-full hidden" onclick="acceptAnswer()">Подтвердить ответ</button>
+      <button id="finish-btn" class="btn btn-green btn-full hidden" onclick="finishTest()">Завершить тест</button>
+      <div class="question-actions" style="margin-top:12px">
+        <button class="btn btn-gray" onclick="prevQuestion()">←</button>
+        <button id="next-btn" class="btn btn-primary hidden" onclick="nextQuestion()">Далее</button>
+        <button id="skip-btn" class="btn btn-gray" onclick="nextQuestion()">Пропустить</button>
+      </div>
+    </div>
+
+    <div id="list-screen" class="hidden">
+      <div class="sticky-list-head">
+        <div class="card" style="padding:14px">
+          <div class="list-title-row"><button class="btn btn-gray btn-small" onclick="backToMenu()">← Назад</button><h2 id="list-title">Раздел</h2></div>
+          <input id="search-box" class="search hidden" placeholder="Поиск по цифре, букве или слову..." oninput="filterList()" />
+        </div>
+      </div>
+      <div id="list-content"></div>
+    </div>
+
+    <div id="result-screen" class="card hidden">
+      <h1 class="center">Результат</h1>
+      <div id="final-score" class="result-score"></div>
+      <div id="final-percent" class="percent"></div>
+      <div class="result-actions"><button class="btn btn-cyan" onclick="toggleReview()">Посмотреть результаты</button><button class="btn btn-primary" onclick="backToMenu()">Меню</button></div>
+      <div id="review-container" class="hidden"></div>
+    </div>
+  </div>
+
+<script>
+let database=[], sessionQuestions=[], userAnswers=[], confirmed=[], currentIdx=0, timerInterval=null, timeLeft=0;
+let tgUser="Пользователь", tgUserId=null, currentDataView=[], currentTestMeta=null, lastReviewVisible=false;
+let favorites=JSON.parse(localStorage.getItem('fav_questions_v4')||'[]');
+let history=JSON.parse(localStorage.getItem('test_history_v4')||'[]');
+
+function generateUserKey(userId){
+  const secret="ECONOMY_PRO_NURISLOMBEK_30000";
+  const raw=`${secret}_${userId}_ONE_ID_ONE_KEY`;
+  return btoa(unescape(encodeURIComponent(raw))).replace(/=/g,'').substring(0,24).toUpperCase();
+}
+window.adminGenerateKey=(userId)=>generateUserKey(userId);
+function paidKey(){return 'premium_key_economy_pro_v4'}
+function paidUser(){return 'premium_user_economy_pro_v4'}
+function isActivated(){return !!(tgUserId && localStorage.getItem(paidKey()) && String(localStorage.getItem(paidUser()))===String(tgUserId));}
+function showPaywall(msg){document.getElementById('paywall').classList.remove('hidden');document.body.style.overflow='auto';if(msg)showPayError(msg)}
+function hidePaywall(){document.getElementById('paywall').classList.add('hidden');document.body.style.overflow='auto'}
+function checkActivation(){
+  const box=document.getElementById('pay-user-id');
+  if(tgUserId){box.innerText=tgUserId}else{box.innerText='Откройте через Telegram Mini App'}
+  if(isActivated()) hidePaywall(); else showPaywall();
+}
+function requirePremium(){
+  if(isActivated()) return true;
+  showPaywall('Сначала оплатите и активируйте ключ доступа.');
+  const h=document.getElementById('locked-hint');h.classList.add('show');setTimeout(()=>h.classList.remove('show'),1300);
+  return false;
+}
+function showPayError(t,c){const e=document.getElementById('pay-error');e.style.color=c||'#f87171';e.innerText=t||''}
+function activateKey(){
+  const entered=document.getElementById('activation-key').value.trim().replace(/\s+/g,'').toUpperCase();
+  if(!tgUserId){showPayError('Откройте сайт через Telegram Mini App, чтобы получить ID.');return}
+  const need=generateUserKey(tgUserId);
+  if(entered===need){localStorage.setItem(paidKey(),entered);localStorage.setItem(paidUser(),tgUserId);showPayError('✅ Активация успешно выполнена!','#22c55e');setTimeout(hidePaywall,650)}
+  else showPayError('❌ Неверный ключ. Проверьте ключ или напишите администратору.');
+}
+function copyText(t){if(navigator.clipboard)navigator.clipboard.writeText(String(t));}
+function copyUserId(){copyText(tgUserId||'');showPayError('ID скопирован','#38bdf8')}
+function copyCard(){copyText('5614688702881144');showPayError('Номер карты скопирован','#38bdf8')}
+
+function getQuestionId(q){return q.id || q.question}
+function isFav(q){const id=getQuestionId(q);return favorites.some(x=>getQuestionId(x)===id)}
+function toggleFav(q){const id=getQuestionId(q); if(isFav(q)) favorites=favorites.filter(x=>getQuestionId(x)!==id); else favorites.push(q); localStorage.setItem('fav_questions_v4',JSON.stringify(favorites));}
+function toggleCurrentFavorite(){if(!sessionQuestions[currentIdx])return;toggleFav(sessionQuestions[currentIdx]);renderQuestion()}
+
+fetch('micro_tests.json').then(r=>r.json()).then(data=>{
+  database=data.map((q,i)=>({...q,id:q.id||i+1}));
+  document.getElementById('cfg-end').value=database.length;
+  if(window.Telegram?.WebApp){
+    window.Telegram.WebApp.expand();
+    const u=window.Telegram.WebApp.initDataUnsafe.user;
+    if(u){tgUserId=u.id;tgUser=`${u.first_name||'Пользователь'} (@${u.username||'id'+u.id})`;setTimeout(()=>{if(window.sendVisitNotification)window.sendVisitNotification(tgUser,tgUserId)},1000)}
+  }
+  document.getElementById('user-badge').innerText=tgUser;
+  document.getElementById('loading-screen').classList.add('hidden');
+  document.getElementById('start-screen').classList.remove('hidden');
+  checkActivation();
+}).catch(()=>{document.getElementById('loading-screen').innerHTML='<div style="text-align:center;color:#f87171;font-weight:900">Ошибка загрузки micro_tests.json</div>'});
+
+function getConfig(){
+  let start=Math.max(1,parseInt(document.getElementById('cfg-start').value)||1);
+  let end=Math.min(database.length,parseInt(document.getElementById('cfg-end').value)||database.length);
+  if(start>end){const t=start;start=end;end=t}
+  let count=Math.max(1,parseInt(document.getElementById('cfg-count').value)||20);
+  const order=document.getElementById('cfg-order').value;
+  return {start,end,count,order,time:Math.max(1,parseInt(document.getElementById('cfg-time').value)||1200)};
+}
+function initTest(withTimer){
+  if(!requirePremium())return;
+  const cfg=getConfig(); let pool=database.slice(cfg.start-1,cfg.end);
+  if(cfg.order==='random') pool.sort(()=>Math.random()-.5);
+  sessionQuestions=pool.slice(0,Math.min(cfg.count,pool.length));
+  userAnswers=new Array(sessionQuestions.length).fill(null); confirmed=new Array(sessionQuestions.length).fill(false); currentIdx=0;
+  currentTestMeta={date:new Date().toLocaleString(),mode:withTimer?'С таймером':'Без времени',range:`${cfg.start}-${cfg.end}`,order:cfg.order==='random'?'Случайный':'По порядку',count:sessionQuestions.length};
+  if(withTimer){timeLeft=cfg.time;startTimer()}else{clearInterval(timerInterval);document.getElementById('timer-display').innerText='Без времени'}
+  showScreen('test-screen');renderQuestion();
+}
+function renderQuestion(){
+  const q=sessionQuestions[currentIdx]; if(!q)return;
+  document.getElementById('test-progress').innerText=`Вопрос ${currentIdx+1} из ${sessionQuestions.length}`;
+  document.getElementById('q-text').innerText=`${currentIdx+1}. ${q.question}`;
+  document.getElementById('fav-current').innerText=isFav(q)?'★':'☆';
+  const list=document.getElementById('q-options'); list.innerHTML='';
+  q.options.forEach((opt,i)=>{const li=document.createElement('li');li.className='option';li.innerText=opt;
+    if(confirmed[currentIdx]){if(i===q.answer)li.classList.add('correct'); else if(i===userAnswers[currentIdx])li.classList.add('wrong')}
+    else{if(i===userAnswers[currentIdx])li.classList.add('selected');li.onclick=()=>{userAnswers[currentIdx]=i;renderQuestion();document.getElementById('accept-btn').classList.remove('hidden')}}
+    list.appendChild(li)});
+  const isLast=currentIdx===sessionQuestions.length-1;
+  document.getElementById('accept-btn').classList.toggle('hidden',confirmed[currentIdx]||userAnswers[currentIdx]===null);
+  document.getElementById('next-btn').classList.toggle('hidden',!confirmed[currentIdx]||isLast);
+  document.getElementById('skip-btn').classList.toggle('hidden',confirmed[currentIdx]||isLast);
+  document.getElementById('finish-btn').classList.toggle('hidden',!isLast || !confirmed[currentIdx]);
+  document.getElementById('early-finish').classList.toggle('hidden',isLast && confirmed[currentIdx]);
+}
+function acceptAnswer(){if(userAnswers[currentIdx]===null)return;confirmed[currentIdx]=true;renderQuestion()}
+function nextQuestion(){if(currentIdx<sessionQuestions.length-1){currentIdx++;renderQuestion()}else finishTest()}
+function prevQuestion(){if(currentIdx>0){currentIdx--;renderQuestion()}}
+function startTimer(){clearInterval(timerInterval);const tick=()=>{let m=Math.floor(timeLeft/60),s=timeLeft%60;document.getElementById('timer-display').innerText=`${m}:${s<10?'0'+s:s}`; if(timeLeft<=0){finishTest();return} timeLeft--};tick();timerInterval=setInterval(tick,1000)}
+function confirmFinish(){if(confirm('Завершить тест досрочно?'))finishTest()}
+function finishTest(){
+  clearInterval(timerInterval); if(!sessionQuestions.length)return;
+  let correct=0; sessionQuestions.forEach((q,i)=>{if(userAnswers[i]===q.answer)correct++}); const total=sessionQuestions.length; const percent=Math.round(correct*100/total);
+  const entry={...currentTestMeta,score:`${correct} / ${total}`,correct,total,percent,details:sessionQuestions.map((q,i)=>({num:i+1,id:q.id,q:q.question,user:userAnswers[i]===null?'Пропущено':q.options[userAnswers[i]],correct:q.options[q.answer],isOk:userAnswers[i]===q.answer}))};
+  history.push(entry); localStorage.setItem('test_history_v4',JSON.stringify(history));
+  if(window.sendSecureReport)window.sendSecureReport(tgUser,correct,total);
+  document.getElementById('final-score').innerText=entry.score; document.getElementById('final-percent').innerText=`${percent}% правильных`;
+  document.getElementById('review-container').classList.add('hidden'); lastReviewVisible=false; showScreen('result-screen'); renderReview(entry.details);
+}
+function renderReview(details){
+  const cont=document.getElementById('review-container'); cont.innerHTML=details.map(d=>`<div class="item" style="border-left:5px solid ${d.isOk?'#16a34a':'#dc2626'}"><div class="item-q">${d.num}. ${d.q}</div><div class="answer">✓ ${d.correct}</div>${!d.isOk?`<div style="color:#f87171;font-weight:900;font-size:15px;margin-top:6px">✗ ${d.user}</div>`:''}</div>`).join('')
+}
+function toggleReview(){lastReviewVisible=!lastReviewVisible;document.getElementById('review-container').classList.toggle('hidden',!lastReviewVisible)}
+function initStudy(){if(!requirePremium())return;showListScreen('Изучить тесты',database,true,'study')}
+function showFavorites(){if(!requirePremium())return;showListScreen('Избранное',favorites,true,'fav')}
+function showHistory(){
+  if(!requirePremium())return; showScreen('list-screen'); document.getElementById('list-title').innerText='Моя история'; document.getElementById('search-box').classList.add('hidden');
+  const cont=document.getElementById('list-content'); if(!history.length){cont.innerHTML='<div class="card empty">История пока пуста</div>';return}
+  cont.innerHTML=history.slice().reverse().map((h,ri)=>{const idx=history.length-1-ri;return `<div class="item"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center"><strong>${h.score}</strong><strong style="color:#22c55e">${h.percent}%</strong></div><div class="history-meta"><div class="pill">📅 ${h.date}</div><div class="pill">🧩 ${h.mode}</div><div class="pill"># ${h.range}</div><div class="pill">${h.order}</div></div><button class="btn btn-gray btn-full btn-small" onclick="viewHistoryDetail(${idx})">Посмотреть какие тесты решал</button></div>`}).join('')
+}
+function viewHistoryDetail(index){const h=history[index];showScreen('result-screen');document.getElementById('final-score').innerText=h.score;document.getElementById('final-percent').innerText=`${h.percent}% правильных · ${h.date}`;renderReview(h.details);document.getElementById('review-container').classList.remove('hidden');lastReviewVisible=true}
+function showListScreen(title,data,withSearch,type){showScreen('list-screen');document.getElementById('list-title').innerText=title;document.getElementById('search-box').classList.toggle('hidden',!withSearch);document.getElementById('search-box').value='';currentDataView=data;renderDataList(data,type)}
+function renderDataList(data,type){const cont=document.getElementById('list-content'); if(!data.length){cont.innerHTML='<div class="card empty">Ничего не найдено</div>';return} cont.innerHTML=data.map(q=>`<div class="item"><div class="item-top"><div class="item-q">${q.question}</div><button class="star ${isFav(q)?'active':''}" onclick="toggleFavFromList(${JSON.stringify(getQuestionId(q)).replace(/"/g,'&quot;')})">${isFav(q)?'★':'☆'}</button></div><div class="answer">✓ ${q.options[q.answer]}</div></div>`).join('')}
+function toggleFavFromList(id){const q=(database.find(x=>String(getQuestionId(x))===String(id))||favorites.find(x=>String(getQuestionId(x))===String(id))); if(q){toggleFav(q); const title=document.getElementById('list-title').innerText; const data=title==='Избранное'?favorites:currentDataView; renderDataList(data)}}
+function filterList(){const val=document.getElementById('search-box').value.toLowerCase().trim(); const filtered=currentDataView.filter(q=>String(q.id).includes(val)||q.question.toLowerCase().includes(val)||q.options.join(' ').toLowerCase().includes(val));renderDataList(filtered)}
+function showScreen(id){['start-screen','test-screen','list-screen','result-screen','loading-screen'].forEach(x=>document.getElementById(x)?.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');window.scrollTo({top:0,behavior:'instant'})}
+function backToMenu(){clearInterval(timerInterval);showScreen('start-screen')}
+</script>
+</body>
+</html>
